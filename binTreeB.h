@@ -5,6 +5,6 @@ typedef struct sNodeB {
 	struct sNodeB*left, *right;
 } tNodeB;
 
-tNodeB *createBTree(char *s);
-void printBInOrder(tNodeB *root);
+tNodeB *createBTree(char *s, int *offset);
 void init_nodeB(tNodeB *n, int x);
+void inOrderPrint(tNodeB *root);
