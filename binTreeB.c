@@ -6,16 +6,6 @@
 
 #include "binTreeB.h"
 
-int main(int argc, char const *argv[]) {
-	char *s = malloc(MAX_TREEB);
-	scanf("%s", s);
-	int offset = 0;
-	tNodeB *root = createBTree(s, &offset);
-	inOrderPrint(root);
-	printf("\n");
-	return 0;
-}
-
 void inOrderPrint(tNodeB *root) {
 	if(root == NULL)
 		return;
