@@ -7,10 +7,12 @@
 #include "binTreeB.h"
 
 int main(int argc, char const *argv[]) {
-	char s[] = "10(8)(30)";
+	char *s = malloc(MAX_TREEB);
+	scanf("%s", s);
 	int offset = 0;
 	tNodeB *root = createBTree(s, &offset);
 	inOrderPrint(root);
+	printf("\n");
 	return 0;
 }
 
@@ -28,66 +30,44 @@ void init_nodeB(tNodeB *n, int x) {
 	n->right = NULL;
 }
 
-/* Cria a arvore secundaria noh aa noh recursivamente. */
+/* Cria a arvore secundaria noh aa noh recursivamente. *
+ * Usa um offset para demarcar o local na string       */
 tNodeB *createBTree(char *s, int *offset) {
-	tNodeB *node;
-
+	int size = strlen(s);
 	// Base da recursao
-	if(strlen(s) <= *offset)
+	if(size <= *offset)
 		return NULL;
-	// se s[0] == ')' o noh eh nulo
-	if(*(s + *offset) == ')') { // noh () eh nulo
+
+	if(*(s + *offset) == '(' && *(s + (*offset) + 1) == ')') { // noh () eh nulo
 		*offset += 2; // Pula para o proximo noh
 		return NULL;
 	}
 
+	// Cria noh novo
+	tNodeB *node;
 	node = malloc(sizeof(tNodeB));
+
 	// Selecionar substring da chave
 	char *k;
-	char *aux;
-	strcpy(aux, s + offset);
+	char aux[size];
 	int num;
-	k = strtok_r(aux, "()", &aux);
+	strcpy(aux, s + *offset); // Copia de s
+	
+	k = strtok(aux, "(");
+	*offset += strlen(k) + 1;
 
 	// Converter substring para inteiro
 	num = atoi(k);
 	init_nodeB(node, num);
 
-	// Look-ahead, se ha ')' apos a chave do noh seus filhos sao nulos
-	if(*(s + *(offset) + 1) == ')') {
+	/* Look-ahead, se ha ')' apos a chave do noh seus filhos sao nulos  *
+	 * Nesse caso, pela natureza de strtok, ')' sempre esta no fim de k *
+	 * portanto subtraimos 1 de s                                       */
+	if(*(s + *(offset) - 1) == ')')
 		return node;
-	}
 
 	node->left = createBTree(s, offset);
 	node->right = createBTree(s, offset);
 
 	return node;
 }
-
-// Node* stringToTree(string &s, int &loc) {
-// 	if(loc>= s.size()) {
-// 		return NULL;
-// 	}
-// 	int len = 0;
-// 	while(loc+len < s.size() && (s[loc+len]!='(' && s[loc+len]!=')') ){
-// 		len++;
-// 	}
-// 	string num_string = s.substr(loc,len);
-// 	int num = stoi(num_string);
-// 	Node* res = newNode(num);
-// 	loc+=len;
-// 	if ( s[loc]=='(') {
-// 		res->left = stringToTree(s,++loc);
-// 		loc++;
-// 	}
-// 	if ( s[loc]=='(') {
-// 		res->right = stringToTree(s,++loc);
-// 		loc++;
-// 	}
-// 	return res;
-// }
-
-// Node* stringToTreeWrapper(string& s) {
-// 	int loc = 0;
-// 	return stringToTree(s,loc);
-// }
