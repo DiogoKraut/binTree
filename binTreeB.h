@@ -1,11 +1,18 @@
 /* DIOGO PARIS KRAUT - GRR20166365 */
+#ifndef __B__
+#define __B__
 
 #define MAX_TREEB 30
+
 typedef struct sNodeB {
 	int key;
-	struct sNodeB*left, *right;
+	struct sNodeB *left, *right;
 } tNodeB;
 
 tNodeB *createBTree(char *s, int *offset);
-void init_nodeB(tNodeB *n, int x);
-void inOrderPrint(tNodeB *root);
+tNodeB *init_nodeB(int x);
+void inOrderPrintB(tNodeB *root);
+void inOrderPrintBHelper(tNodeB *root);
+int findSum(tNodeB *root);
+
+#endif

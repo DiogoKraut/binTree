@@ -6,18 +6,41 @@
 
 #include "binTreeB.h"
 
-void inOrderPrint(tNodeB *root) {
-	if(root == NULL)
-		return;
-	inOrderPrint(root->left);
-	printf("%i ", root->key);
-	inOrderPrint(root->right);
+void inOrderPrintBHelper(tNodeB *root) {
+	inOrderPrintB(root);
+	printf(":%i\n", findSum(root));
 }
 
-void init_nodeB(tNodeB *n, int x) {
+void inOrderPrintB(tNodeB *root) {
+	/* Base, noh eh nulo */
+	if(root == NULL) {
+		printf("()");
+		return;
+	}
+	printf("(%i ", root->key); // Pre-ordem
+	/* Se ambos filhos sao nulos, nao olha os filhos */
+	if(!root->left && !root->right) {
+		printf(")");
+		return;
+	}
+	/* Se chegou aqui noh tem pelo menos um filho */
+	inOrderPrintB(root->left);
+	inOrderPrintB(root->right);
+	printf(")");
+}
+
+tNodeB *init_nodeB(int x) {
+	tNodeB *n = malloc(sizeof(tNodeB));
+	if(!n) {
+		fprintf(stderr, "Falha ao alocar nohB\n");
+		exit(EXIT_FAILURE);
+	}
+
 	n->key = x;
 	n->left = NULL;
 	n->right = NULL;
+
+	return n;
 }
 
 /* Cria a arvore secundaria noh aa noh recursivamente. *
@@ -33,26 +56,21 @@ tNodeB *createBTree(char *s, int *offset) {
 		return NULL;
 	}
 
-	// Cria noh novo
-	tNodeB *node;
-	node = malloc(sizeof(tNodeB));
-
 	// Selecionar substring da chave
 	char *k;
 	char aux[size];
 	int num;
 	strcpy(aux, s + *offset); // Copia de s
-	
+
 	k = strtok(aux, "(");
 	*offset += strlen(k) + 1;
 
 	// Converter substring para inteiro
 	num = atoi(k);
-	init_nodeB(node, num);
+	// Cria noh novo
+	tNodeB *node = init_nodeB(num);
 
-	/* Look-ahead, se ha ')' apos a chave do noh seus filhos sao nulos  *
-	 * Nesse caso, pela natureza de strtok, ')' sempre esta no fim de k *
-	 * portanto subtraimos 1 de s                                       */
+	/* Look-ahead, se ha ')' apos a chave do noh seus filhos sao nulos  */
 	if(*(s + *(offset) - 1) == ')')
 		return node;
 
@@ -60,4 +78,12 @@ tNodeB *createBTree(char *s, int *offset) {
 	node->right = createBTree(s, offset);
 
 	return node;
+}
+
+int findSum(tNodeB *root) {
+	int sum = 0;
+	if(root == NULL)
+		return sum;
+	sum += root->key;
+	return findSum(root->left) + findSum(root->right) + sum;
 }

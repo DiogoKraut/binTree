@@ -7,19 +7,27 @@
 
 int main(int argc, char const *argv[]) {
 	char *s = malloc(MAX_TREEB);
-	scanf("%s", s);
-	int offset = 0;
-	tNodeB *root;
+	int offset;
+	tNodeA *rootA = NULL;
+	tNodeB *rootB;
 
-	switch(*s) {
-		case 'i':
-			root = createBTree(s, &offset);
-			inOrderPrint(root);
-			printf("\n");
-			break;
-		
-	}
-	offset = 0;
+	s = "i (10(8)(30))";
+	// while(1) {
+		// scanf("%s", s);
+		offset = 0;
+		rootB = createBTree(s + 2, &offset);
+
+		switch(*s) {
+			case 'i':
+				insertTreeAHelper(rootA, rootB);
+				printf("\n");
+				break;
+
+			case 'b':
+				searchA(rootA, findSum(rootB));
+				break;
+		}
+	// }
 	free(s);
 	return 0;
 }
