@@ -17,7 +17,7 @@ void inOrderPrintB(tNodeB *root) {
 		printf("()");
 		return;
 	}
-	printf("(%i ", root->key); // Pre-ordem
+	printf("(%i", root->key); // Pre-ordem
 	/* Se ambos filhos sao nulos, nao olha os filhos */
 	if(!root->left && !root->right) {
 		printf(")");
@@ -46,7 +46,7 @@ tNodeB *init_nodeB(int x) {
 /* Cria a arvore secundaria noh aa noh recursivamente. *
  * Usa um offset para demarcar o local na string       */
 tNodeB *createBTree(char *s, int *offset) {
-	int size = strlen(s);
+	int size = strlen(s) - 1; // -1 pois inclui \n
 	// Base da recursao
 	if(size <= *offset)
 		return NULL;
@@ -86,4 +86,13 @@ int findSum(tNodeB *root) {
 		return sum;
 	sum += root->key;
 	return findSum(root->left) + findSum(root->right) + sum;
+}
+
+void free_routineB(tNodeB *rootB) {
+	if(rootB == NULL)
+		return;
+
+	free_routineB(rootB->left);
+	free_routineB(rootB->right);
+	free(rootB);
 }

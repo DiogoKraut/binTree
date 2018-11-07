@@ -14,5 +14,6 @@ tNodeB *init_nodeB(int x);
 void inOrderPrintB(tNodeB *root);
 void inOrderPrintBHelper(tNodeB *root);
 int findSum(tNodeB *root);
+void free_routineB(tNodeB *rootB);
 
 #endif

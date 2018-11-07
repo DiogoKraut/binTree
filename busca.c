@@ -11,23 +11,34 @@ int main(int argc, char const *argv[]) {
 	tNodeA *rootA = NULL;
 	tNodeB *rootB;
 
-	s = "i (10(8)(30))";
-	// while(1) {
-		// scanf("%s", s);
+	while(1) {
+		fgets(s, MAX_TREEB, stdin);
 		offset = 0;
 		rootB = createBTree(s + 2, &offset);
 
 		switch(*s) {
 			case 'i':
-				insertTreeAHelper(rootA, rootB);
-				printf("\n");
+				rootA = insertTreeA(rootA, rootB);
+				inOrderPrintA(rootA);
 				break;
 
 			case 'b':
-				searchA(rootA, findSum(rootB));
+				searchA(rootA, rootB);
+				inOrderPrintA(rootA);
+				break;
+
+			case 'r':
+				if(searchA(rootA, rootB) != NULL) {
+					deleteTreeA(rootA, rootB);
+					inOrderPrintA(rootA);
+				}
 				break;
 		}
-	// }
+		printf("\n");
+	}
+
+	/* Liberar arvores primarias e secundarias */
 	free(s);
+	free_routineA(rootA);
 	return 0;
 }

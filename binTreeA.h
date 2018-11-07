@@ -10,9 +10,13 @@ typedef struct sNodeA {
 } tNodeA;
 
 tNodeA *init_nodeA(tNodeB *rootB);
-void insertTreeAHelper(tNodeA *rootA, tNodeB *rootB);
-void insertTreeA(tNodeA *rootA, tNodeB *rootB);
-void searchA(tNodeA *rootA, int sum);
+tNodeA *insertTreeA(tNodeA *rootA, tNodeB *rootB);
+tNodeB *searchA(tNodeA *rootA, tNodeB *rootB);
+void inOrderPrintAHelper(tNodeA *rootA);
 void inOrderPrintA(tNodeA *rootA);
+void free_routineA(tNodeA *rootA);
+tNodeA *deleteTreeAHelper(tNodeA *rootA, tNodeB *rootB);
+tNodeA *deleteTreeA(tNodeA *rootA, tNodeB *rootB);
+tNodeA *minA(tNodeA *rootA);
 
 #endif
