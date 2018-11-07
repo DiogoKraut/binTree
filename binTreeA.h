@@ -15,8 +15,8 @@ tNodeB *searchA(tNodeA *rootA, tNodeB *rootB);
 void inOrderPrintAHelper(tNodeA *rootA);
 void inOrderPrintA(tNodeA *rootA);
 void free_routineA(tNodeA *rootA);
-tNodeA *deleteTreeAHelper(tNodeA *rootA, tNodeB *rootB);
-tNodeA *deleteTreeA(tNodeA *rootA, tNodeB *rootB);
+void transplantA(tNodeA **u, tNodeA **v);
+tNodeA *deleteTreeA(tNodeA **rootA, tNodeB *rootB);
 tNodeA *minA(tNodeA *rootA);
 
 #endif

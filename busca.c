@@ -9,7 +9,8 @@ int main(int argc, char const *argv[]) {
 	char *s = malloc(MAX_TREEB);
 	int offset;
 	tNodeA *rootA = NULL;
-	tNodeB *rootB;
+	tNodeB *rootB = NULL;
+	tNodeA *tmp;
 
 	while(1) {
 		fgets(s, MAX_TREEB, stdin);
@@ -24,14 +25,13 @@ int main(int argc, char const *argv[]) {
 
 			case 'b':
 				searchA(rootA, rootB);
-				inOrderPrintA(rootA);
 				break;
 
 			case 'r':
-				if(searchA(rootA, rootB) != NULL) {
-					deleteTreeA(rootA, rootB);
+					tmp = deleteTreeA(&rootA, rootB);
+					free_routineB(tmp->key);
+					free(tmp);
 					inOrderPrintA(rootA);
-				}
 				break;
 		}
 		printf("\n");

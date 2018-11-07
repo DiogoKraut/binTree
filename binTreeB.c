@@ -51,8 +51,13 @@ tNodeB *createBTree(char *s, int *offset) {
 	if(size <= *offset)
 		return NULL;
 
+	/* Noh da forma () eh nulo */
 	if(*(s + *offset) == '(' && *(s + (*offset) + 1) == ')') { // noh () eh nulo
-		*offset += 2; // Pula para o proximo noh
+		/* Se noh nulo eh filho direito, pula um parentese aa mais */
+		if(*(s + (*offset) + 2) == ')')
+			*offset += 3; // Pula para o proximo noh
+		else // Filho esquerdo
+			*offset += 2; // Pula para o proximo noh
 		return NULL;
 	}
 
@@ -60,7 +65,8 @@ tNodeB *createBTree(char *s, int *offset) {
 	char *k;
 	char aux[size];
 	int num;
-	strcpy(aux, s + *offset); // Copia de s
+	memcpy(aux, s + *offset, size - *offset);
+	// strcpy(aux, s + *offset); // Copia de s
 
 	k = strtok(aux, "(");
 	*offset += strlen(k) + 1;

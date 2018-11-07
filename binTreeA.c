@@ -15,7 +15,8 @@ tNodeA *init_nodeA(tNodeB *rootB) {
 	}
 
 	rootA->key    = rootB;
-	rootA->left   = rootA->right  = NULL;
+	rootA->left   = NULL;
+	rootA->right  = NULL;
 	rootA->parent = NULL;
 
 	return rootA;
@@ -65,8 +66,9 @@ tNodeB *searchA(tNodeA *rootA, tNodeB *rootB) {
 }
 
 void inOrderPrintAHelper(tNodeA *rootA) {
+	printf("[");
 	inOrderPrintA(rootA);
-	printf("\n");
+	printf("]\n");
 }
 
 void inOrderPrintA(tNodeA *rootA) {
@@ -89,38 +91,54 @@ void inOrderPrintA(tNodeA *rootA) {
 	printf("]\n");
 }
 
-tNodeA *deleteTreeA(tNodeA *rootA, tNodeB *rootB) {
+void transplantA(tNodeA **u, tNodeA **v) {
+	if((*u)->parent == NULL) { // Caso raiz
+		(*u) = (*v);
+	} else
+		if((*u) == (*u)->parent->left) // u eh filho esq
+			(*u)->parent->left = (*v);
+		else                           // u eh filho dir
+			(*u)->parent->right = (*v);
+
+	if((*v) != NULL)
+		(*v)->parent = (*u)->parent;
+}
+
+tNodeA *deleteTreeA(tNodeA **rootA, tNodeB *rootB) {
 	/* Base */
-	if(rootA == NULL)
-		return rootA;
+	if(*rootA == NULL)
+		return NULL;
 
-	tNodeA *successor;
+	tNodeA *successor, *tmp;
+	int sumA = findSum((*rootA)->key);
 	int sumB = findSum(rootB);
-	int sumA = findSum(rootA->key);
 
-	if(sumB < sumA)
-		rootA->left = deleteTreeA(rootA->left, rootB);
-	else
-		if(sumB > sumA)
-			rootA->right = deleteTreeA(rootA->right, rootB);
-		else
-
+	if(sumB < sumA) {
+		tmp = deleteTreeA(&(*rootA)->left, rootB);
+	} else {
+		if(sumB > sumA) {
+			tmp = deleteTreeA(&(*rootA)->right, rootB);
+		} else {
 			/* Encontrou noh. Verificar casos */
-			if(rootA->left && rootA->right) { // Caso noh tem ambos filhos
-				successor = minA(rootA->right);
-				rootA->key = successor->key;
-				rootA->right = deleteTreeA(rootA->right, rootA->key);
-			} else {
-				successor = rootA;
-				if(rootA->left == NULL)         // Caso soh tenha filho direito
-					rootA = rootA->right;
-				else
-					if(rootA->right == NULL)      // Caso soh tenha filho esquerdo
-						rootA = rootA->left;
-
-				free(successor);
+			tmp = *rootA;
+			if((*rootA)->left == NULL) // Caso filho esquerdo nulo
+				transplantA(rootA, &(*rootA)->right);
+			else if((*rootA)->right == NULL) // Caso tem filho esq mas nao filho dir
+				transplantA(rootA, &(*rootA)->left);
+			else { // Caso tenha ambos filhos
+				successor = minA((*rootA)->right);
+				if(successor->parent != *rootA) {
+					transplantA(&successor, &successor->right);
+					successor->right = (*rootA)->right;
+					successor->right->parent = successor;
+				}
+				transplantA(rootA, &successor);
+				successor->left = (*rootA)->left;
+				successor->left->parent = successor;
 			}
-	return rootA;
+		}
+	}
+	return tmp;
 }
 
 tNodeA *minA(tNodeA *rootA) {
