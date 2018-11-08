@@ -6,21 +6,21 @@
 #include "binTreeA.h"
 
 int main(int argc, char const *argv[]) {
-	char *s = malloc(MAX_TREEB);
+	char s[MAX_TREEB];
 	int offset;
 	tNodeA *rootA = NULL;
 	tNodeB *rootB = NULL;
 	tNodeA *tmp;
 
 	while(1) {
-		fgets(s, MAX_TREEB, stdin);
+		fgets(s, MAX_TREEB, stdin); // Le um comando
 		offset = 0;
 		rootB = createBTree(s + 2, &offset);
 
 		switch(*s) {
 			case 'i':
 				rootA = insertTreeA(rootA, rootB);
-				inOrderPrintA(rootA);
+				inOrderPrintAHelp(rootA);
 				break;
 
 			case 'b':
@@ -38,7 +38,6 @@ int main(int argc, char const *argv[]) {
 	}
 
 	/* Liberar arvores primarias e secundarias */
-	free(s);
 	free_routineA(rootA);
 	return 0;
 }

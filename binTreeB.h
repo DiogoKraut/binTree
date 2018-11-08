@@ -2,7 +2,7 @@
 #ifndef __B__
 #define __B__
 
-#define MAX_TREEB 30
+#define MAX_TREEB 100 // Tamanho maximo da string que representa arvore B
 
 typedef struct sNodeB {
 	int key;

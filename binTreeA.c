@@ -23,7 +23,7 @@ tNodeA *init_nodeA(tNodeB *rootB) {
 }
 
 tNodeA *insertTreeA(tNodeA *rootA, tNodeB *rootB) {
-	/* Base */
+	/* Base da recursao */
 	if(rootA == NULL) {
 		rootA = init_nodeA(rootB);
 		return rootA;
@@ -35,8 +35,7 @@ tNodeA *insertTreeA(tNodeA *rootA, tNodeB *rootB) {
 		rootA->left = insertTreeA(rootA->left, rootB);
 		rootA->left->parent = rootA;
 	}
-	else
-	if(findSum(rootA->key) < sum) {
+	else if(findSum(rootA->key) < sum) {
 		rootA->right = insertTreeA(rootA->right, rootB);
 		rootA->right->parent = rootA;
 	}
@@ -45,7 +44,7 @@ tNodeA *insertTreeA(tNodeA *rootA, tNodeB *rootB) {
 
 
 tNodeB *searchA(tNodeA *rootA, tNodeB *rootB) {
-	/* Base */
+	/* Base da recursao*/
 	if(rootA == NULL)
 		return NULL;
 
@@ -62,35 +61,33 @@ tNodeB *searchA(tNodeA *rootA, tNodeB *rootB) {
 
 	if(findSum(rootA->key) < sum)
 		return searchA(rootA->right, rootB);
+	/* Noh nao existe */
 	return NULL;
 }
 
-void inOrderPrintAHelper(tNodeA *rootA) {
-	printf("[");
-	inOrderPrintA(rootA);
-	printf("]\n");
-}
-
 void inOrderPrintA(tNodeA *rootA) {
-	/* Base, noh eh nulo */
+	/* Base da recursa. Caso 1: Noh eh nulo */
 	if(rootA == NULL) {
 		printf("[]\n");
 		return;
 	}
-	printf("["); // Pre-ordem
-	inOrderPrintBHelper(rootA->key);
 
-	/* Se ambos filhos sao nulos, nao olha os filhos */
+	printf("[");
+	inOrderPrintBHelper(rootA->key); // Pre-ordem
+
+	/* Caso 2: Se ambos filhos sao nulos, nao olha os filhos */
 	if(!rootA->left && !rootA->right) {
 		printf("]\n");
 		return;
 	}
-	/* Se chegou aqui noh tem pelo menos um filho */
+	/* Caso 3: Noh tem pelo menos um filho */
 	inOrderPrintA(rootA->left);
 	inOrderPrintA(rootA->right);
 	printf("]\n");
 }
 
+/* Troca a sub-arvore *u pela sub-arvore *v, e altera os ponteiros para pais *
+ * de acordo. Algoritimo "TRANSPLANT" do Cormen                              */
 void transplantA(tNodeA **u, tNodeA **v) {
 	if((*u)->parent == NULL) { // Caso raiz
 		(*u) = (*v);
@@ -119,14 +116,17 @@ tNodeA *deleteTreeA(tNodeA **rootA, tNodeB *rootB) {
 		if(sumB > sumA) {
 			tmp = deleteTreeA(&(*rootA)->right, rootB);
 		} else {
-			/* Encontrou noh. Verificar casos */
+			/* Encontrou noh. Verificar casos. (TREE-DELETE do Cormen) */
 			tmp = *rootA;
-			if((*rootA)->left == NULL) // Caso filho esquerdo nulo
+			if((*rootA)->left == NULL)       // Caso 1: Filho esquerdo nulo
 				transplantA(rootA, &(*rootA)->right);
-			else if((*rootA)->right == NULL) // Caso tem filho esq mas nao filho dir
+			else if((*rootA)->right == NULL) // Caso 2:tem filho esq mas nao filho dir
 				transplantA(rootA, &(*rootA)->left);
-			else { // Caso tenha ambos filhos
+			else {                           // Caso 3: Tem ambos os filhos
+				/* Sucessor entra no lugar do noh a ser removido */
 				successor = minA((*rootA)->right);
+				/* Se o pai do sucessor nao for o noh a ser removido, usar o filho *
+				 * direito do sucessor                                             */
 				if(successor->parent != *rootA) {
 					transplantA(&successor, &successor->right);
 					successor->right = (*rootA)->right;
@@ -142,7 +142,7 @@ tNodeA *deleteTreeA(tNodeA **rootA, tNodeB *rootB) {
 }
 
 tNodeA *minA(tNodeA *rootA) {
-	/* Base */
+	/* Base da recursao */
 	if(rootA == NULL)
 		return rootA;
 	if(rootA->left == NULL)

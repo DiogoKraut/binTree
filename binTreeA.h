@@ -12,7 +12,6 @@ typedef struct sNodeA {
 tNodeA *init_nodeA(tNodeB *rootB);
 tNodeA *insertTreeA(tNodeA *rootA, tNodeB *rootB);
 tNodeB *searchA(tNodeA *rootA, tNodeB *rootB);
-void inOrderPrintAHelper(tNodeA *rootA);
 void inOrderPrintA(tNodeA *rootA);
 void free_routineA(tNodeA *rootA);
 void transplantA(tNodeA **u, tNodeA **v);

@@ -12,18 +12,18 @@ void inOrderPrintBHelper(tNodeB *root) {
 }
 
 void inOrderPrintB(tNodeB *root) {
-	/* Base, noh eh nulo */
+	/* Base da recursao. Caso 1: noh eh nulo */
 	if(root == NULL) {
 		printf("()");
 		return;
 	}
 	printf("(%i", root->key); // Pre-ordem
-	/* Se ambos filhos sao nulos, nao olha os filhos */
+	/* Caso 2: se ambos filhos sao nulos, nao olha os filhos */
 	if(!root->left && !root->right) {
 		printf(")");
 		return;
 	}
-	/* Se chegou aqui noh tem pelo menos um filho */
+	/* Caso 3: noh tem pelo menos um filho */
 	inOrderPrintB(root->left);
 	inOrderPrintB(root->right);
 	printf(")");
@@ -47,12 +47,12 @@ tNodeB *init_nodeB(int x) {
  * Usa um offset para demarcar o local na string       */
 tNodeB *createBTree(char *s, int *offset) {
 	int size = strlen(s) - 1; // -1 pois inclui \n
-	// Base da recursao
+	/* Base da recursao */
 	if(size <= *offset)
 		return NULL;
 
-	/* Noh da forma () eh nulo */
-	if(*(s + *offset) == '(' && *(s + (*offset) + 1) == ')') { // noh () eh nulo
+	/* Caso 1: noh da forma () eh nulo */
+	if(*(s + *offset) == '(' && *(s + (*offset) + 1) == ')') {
 		/* Se noh nulo eh filho direito, pula um parentese aa mais */
 		if(*(s + (*offset) + 2) == ')')
 			*offset += 3; // Pula para o proximo noh
@@ -65,31 +65,37 @@ tNodeB *createBTree(char *s, int *offset) {
 	char *k;
 	char aux[size];
 	int num;
-	memcpy(aux, s + *offset, size - *offset);
-	// strcpy(aux, s + *offset); // Copia de s
 
-	k = strtok(aux, "(");
-	*offset += strlen(k) + 1;
+	/* Copia de s uma vez que strtok altera a string original   *
+	 * Nesta implementacao nao eh nescessario o uso de strtok_r */
+	memcpy(aux, s + *offset, size - *offset);
+
+	k = strtok(aux, "(");     // Substring da chave
+	*offset += strlen(k) + 1; // proximo noh
 
 	// Converter substring para inteiro
 	num = atoi(k);
 	// Cria noh novo
 	tNodeB *node = init_nodeB(num);
 
-	/* Look-ahead, se ha ')' apos a chave do noh seus filhos sao nulos  */
+	/* Caso 2: Look-ahead, se ha ')' apos a chave do noh seus filhos sao nulos  */
 	if(*(s + *(offset) - 1) == ')')
 		return node;
 
+	/* Caso 3: Pelo menos um filho nao eh nulo */
 	node->left = createBTree(s, offset);
 	node->right = createBTree(s, offset);
 
 	return node;
 }
 
+/* Retorna a soma das chaves da arvore secundaria de raiz root */
 int findSum(tNodeB *root) {
 	int sum = 0;
+	/* Base da recursa */
 	if(root == NULL)
 		return sum;
+		
 	sum += root->key;
 	return findSum(root->left) + findSum(root->right) + sum;
 }
