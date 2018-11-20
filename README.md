@@ -1,6 +1,6 @@
 # Trabalho CI057 - Diogo Paris Kraut - GRR20166365
 
-##Main
+## Main
 1. Le a entrada de stdin
 2. Como toda entrada contem uma arvore secundaria, cria esta arvore.
 3. Interpreta o primeiro carácter da entrada.
