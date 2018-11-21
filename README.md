@@ -1,6 +1,7 @@
 # Trabalho CI057
-Melhor lido em https://github.com/DiogoKraut/binTre.
 Diogo Paris Kraut - GRR20166365
+
+Melhor lido em https://github.com/DiogoKraut/binTre.
 
 ## Main
 1. Le a entrada de stdin
