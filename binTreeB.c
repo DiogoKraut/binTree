@@ -30,12 +30,13 @@ void inOrderPrintB(tNodeB *root) {
 }
 
 tNodeB *init_nodeB(int x) {
+	/* Alocacao */
 	tNodeB *n = malloc(sizeof(tNodeB));
 	if(!n) {
 		fprintf(stderr, "Falha ao alocar nohB\n");
 		exit(EXIT_FAILURE);
 	}
-
+	/* Inicializacao */
 	n->key = x;
 	n->left = NULL;
 	n->right = NULL;
@@ -95,11 +96,12 @@ int findSum(tNodeB *root) {
 	/* Base da recursa */
 	if(root == NULL)
 		return sum;
-		
+
 	sum += root->key;
 	return findSum(root->left) + findSum(root->right) + sum;
 }
 
+/* Percorre arvore secundaria em pos-ordem para libera-la */
 void free_routineB(tNodeB *rootB) {
 	if(rootB == NULL)
 		return;

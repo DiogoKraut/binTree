@@ -18,16 +18,14 @@ int main(int argc, char const *argv[]) {
 		rootB = createBTree(s + 2, &offset); // Pula o comando e o espaco em branco
 
 		switch(*s) {
-			case 'i':
+			case 'i': // Insercao
 				rootA = insertTreeA(rootA, rootB);
 				inOrderPrintA(rootA);
 				break;
-
-			case 'b':
+			case 'b': // Busca
 				searchA(rootA, rootB);
 				break;
-
-			case 'r':
+			case 'r': // Remocao
 					tmp = deleteTreeA(&rootA, rootB);
 					if(tmp != NULL) { // tmp == NULL significa que noh nao existia
 						free_routineB(tmp->key);

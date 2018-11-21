@@ -101,6 +101,7 @@ void transplantA(tNodeA **u, tNodeA **v) {
 		(*v)->parent = (*u)->parent;
 }
 
+/* Retorna o no para ser liberado ou NULL case nao encontrado */
 tNodeA *deleteTreeA(tNodeA **rootA, tNodeB *rootB) {
 	/* Base */
 	if(*rootA == NULL)
@@ -141,6 +142,7 @@ tNodeA *deleteTreeA(tNodeA **rootA, tNodeB *rootB) {
 	return tmp;
 }
 
+/* Retorna o minimo da sub arvore rootA */
 tNodeA *minA(tNodeA *rootA) {
 	/* Base da recursao */
 	if(rootA == NULL)
@@ -150,6 +152,7 @@ tNodeA *minA(tNodeA *rootA) {
 	return minA(rootA->left);
 }
 
+/* Percorre arvore secundaria em pos-ordem para libera-la */
 void free_routineA(tNodeA *rootA) {
 	if(rootA == NULL)
 		return;
