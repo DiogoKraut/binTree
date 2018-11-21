@@ -133,7 +133,7 @@ tNodeA *deleteTreeA(tNodeA **rootA, tNodeB *rootB) {
 					successor->right->parent = successor;
 				}
 				transplantA(rootA, &successor);
-				successor->left = (*rootA)->left;
+				successor->left = tmp->left;
 				successor->left->parent = successor;
 			}
 		}
