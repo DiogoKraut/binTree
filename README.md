@@ -18,11 +18,11 @@ Diogo Paris Kraut - GRR20166365
 
 No caso da arvore primaria: Nohs nulos explicitados tem seus colchetes na mesma
 linha.
-    [(10):10
-		[(8):8
-		]
-		[]
-		]
+`[(10):10
+[(8):8
+]
+[]
+]`
 
 ## Makefile
 1. make - compilar.
