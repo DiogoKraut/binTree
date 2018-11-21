@@ -13,7 +13,7 @@ Diogo Paris Kraut - GRR20166365
 
 ## Impressao
 1. Nohs nulos com irmao nulo sao omitidos.         Ex: filhos do noh (10)
-2. Nohs nulos com irmao nao nulo sao explicitados. Ex: irmao de 3, (10(3)()).
+2. Nohs nulos com irmao nao nulo sao explicitados. Ex: irmao de 3 (10(3)()).
 3. Nohs com ambos filhos nao nulos.                Ex: (10(3)(15)).
 
 No caso da arvore primaria: Nohs nulos explicitados tem seus colchetes na mesma
