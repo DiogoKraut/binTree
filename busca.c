@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]) {
 		switch(*s) {
 			case 'i':
 				rootA = insertTreeA(rootA, rootB);
-				inOrderPrintAHelp(rootA);
+				inOrderPrintA(rootA);
 				break;
 
 			case 'b':
@@ -29,9 +29,11 @@ int main(int argc, char const *argv[]) {
 
 			case 'r':
 					tmp = deleteTreeA(&rootA, rootB);
-					free_routineB(tmp->key);
-					free(tmp);
-					inOrderPrintA(rootA);
+					if(tmp != NULL) { // tmp == NULL significa que noh nao existia
+						free_routineB(tmp->key);
+						free(tmp);
+						inOrderPrintA(rootA);
+					}
 				break;
 		}
 		printf("\n");
